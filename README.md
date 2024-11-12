@@ -1,2 +1,2 @@
-# CS687_FP
+# CS687_Final_Project
 CS687
