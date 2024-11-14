@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd
+# import pandas as pd
 from copy import deepcopy
 
 class Cat_vs_Monster:
@@ -29,10 +29,10 @@ class Cat_vs_Monster:
                 self._edit_state(row, col, key)
 
     # Given a prospective state (row, col) to move into, is that state valid? If row, col is out of range or (row, col) is a wall state -> return the previous state, else return (row, col)
-    def _check_and_update_state(self, row, col, state):
+    def _check_and_update_state(self, row, col, prev_state):
         valid_row_range, valid_col_range = range(self.nrow), range(self.ncol)
         if (row not in valid_row_range) or (col not in valid_col_range) or (self.get_state(row, col) in self.wall_states):
-            return state
+            return prev_state
         return (row, col)
             
     # Get the list of next states and their probabilities, given a state and action
@@ -43,10 +43,12 @@ class Cat_vs_Monster:
             next_state_probs[state] = 1
             return next_state_probs
         row, col = state
+        # Initialize transition dynamics and probabilities
         dynamics = [(1,0),(0,1),(0,-1),(0,0)]
         probabilities = [0.7, 0.12, 0.12, 0.06]
         for item in zip(dynamics, probabilities):
             dynamic, prob = item[0], item[1]
+            # Performing correct next state transition for any action
             if action == "AU":
                 next_state = (row - dynamic[0], col + dynamic[1])
             elif action == "AD":
@@ -55,7 +57,9 @@ class Cat_vs_Monster:
                 next_state = (row + dynamic[1], col - dynamic[0])
             else:
                 next_state = (row + dynamic[1], col + dynamic[0])
+            # Validate if the next state is valid, if not stay on the current state
             next_state = self._check_and_update_state(*next_state, state)
+            # Update transition probability if transitioning into an invalid state
             next_state_probs[next_state] = next_state_probs.get(next_state, 0) + prob
         return next_state_probs
 
@@ -81,7 +85,7 @@ class ValueIteration:
         self.discount = 0.925
         self.theta = 0.0001
 
-    # Update paramters for domain and reinitialize game
+    # Update parameters for domain and reinitialize game -> Can create an instance, edit a parameter in the domain and reinitialize the game without creating a new instance.
     def update_game(self):
         self.game = Cat_vs_Monster(self.world_size, self.states_dict, self.rewards_dict, self.terminal_states, self.wall_states)
     
@@ -165,3 +169,9 @@ class ValueIteration:
 
 # instance = ValueIteration()
 # v_map, policy_map, iterations = instance.run_standard_value_iteration(init_func)
+
+# import pandas as pd
+# df = pd.DataFrame(v_map)
+# print(df)
+# df = pd.DataFrame(policy_map)
+# print(df)
