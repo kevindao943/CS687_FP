@@ -15,8 +15,12 @@ Policy Improvement with Covariance Matrix Adaptation.
 In the write-up for a project of this sort you should include...
 
 (i) a brief description of the methods and what they do; 
+
 (ii) pseudocode for the methods; 
+
 (iii) adiscussion of how you tuned their hyper-parameters; 
+
 (iv) the corresponding experimental results. 
+
 When analyzing the performance of each algorithm, you should present learning curves
 such as the ones in the homework assignments.
