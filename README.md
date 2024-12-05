@@ -10,10 +10,13 @@ model-based RL algorithm such as Prioritized Sweeping (Section 8.4 of the RL boo
 Carlo Tree Search (MCTS) algorithm (Section 8.11 of the RL book), the Episodic Semi-Gradient
 n-step SARSA algorithm (Section 10.2 of the RL book), the True Online SARSA(λ) algorithm
 (Section 12.7 of the RL book), and the PI2-CMA-ES algorithm from the paper Path Integral
-Policy Improvement with Covariance Matrix Adaptation. If you decide to implement a different
-algorithm, please check with the instructor and/or TAs to make sure that the selected algorithm
-is appropriate for this course project. In the write-up for a project of this sort you should include
-(i) a brief description of the methods and what they do; (ii) pseudocode for the methods; (iii) a
-discussion of how you tuned their hyper-parameters; and (iv) the corresponding experimental
-results. When analyzing the performance of each algorithm, you should present learning curves
+Policy Improvement with Covariance Matrix Adaptation.
+
+In the write-up for a project of this sort you should include...
+
+(i) a brief description of the methods and what they do; 
+(ii) pseudocode for the methods; 
+(iii) adiscussion of how you tuned their hyper-parameters; 
+(iv) the corresponding experimental results. 
+When analyzing the performance of each algorithm, you should present learning curves
 such as the ones in the homework assignments.
