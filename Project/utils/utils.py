@@ -6,7 +6,7 @@ def get_vmap_policy_map(q, instance):
     
     for row in range(5):
         for col in range(5):
-            if (row, col) in instance.mdp.states_dict['Forbidden Furniture']:
+            if instance.mdp.game.get_state(row, col) in instance.mdp.wall_states:
                 vmap[row][col] = 'X'
                 policy_map[row][col] = 'X'
             else:
