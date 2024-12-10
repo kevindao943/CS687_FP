@@ -2,10 +2,8 @@ import numpy as np
 
 def get_vmap_policy_map(q, instance):
     nrow, ncol = instance.mdp.state_space
-
     vmap = [[None for _ in range(ncol)] for _ in range(nrow)]
     policy_map = [[None for _ in range(ncol)] for _ in range(nrow)]
-    
     for row in range(nrow):
         for col in range(ncol):
             if instance.mdp.game.get_state(row, col) in instance.mdp.wall_states:

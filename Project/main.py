@@ -34,10 +34,11 @@ def run_domain(domain, domain_name, prioritized_sweeping_args, hyperparameter_bo
 
     df = pd.DataFrame(ps_policy_map)
     print(df)
-    print("\n")
+
+    print(f"\nRunning Evolution Strategy for Prioritized Sweeping Algorithm, on {domain_name} domain...\n")
 
     es_ps = EvolutionStrategyForPrioritizedSweeping(prioritized_sweeping=PrioritizedSweeping, mdp=domain, optimal_v_map=cvm_v_map)
-    best_params, min_loss, generation_min_loss_list = es_ps.run_es(hyperparameter_bounds, pop_size=50, generations=20, top_parents=10, mutation_strength=0.2)
+    best_params, min_loss, generation_min_loss_list = es_ps.run_es(hyperparameter_bounds, pop_size=100, generations=50, top_parents=10, mutation_strength=0.125)
 
     print("Best hyperparameters found:", best_params)
     print("Best Max Norm Value:", min_loss)
