@@ -70,14 +70,6 @@ def run_domain(domain, domain_name, prioritized_sweeping_args, hyperparameter_bo
 
     print(f"\nRunning Evolution Strategy for Prioritized Sweeping Algorithm, on {domain_name} domain...\n")
 
-theta, alpha, epsilon = 0.1, 0.1, 0.1
-prioritized_sweeping_args = [theta, alpha, epsilon]
-hyperparameter_bounds = {'theta': (0.01, 0.75),'alpha': (0.01, 0.75),'epsilon': (0.01, 0.75),'n': (1, 100),'niter': (50, 500),'episode_length': (50, 500)}
-es_params = [20, 20, 5, 0.05, 10, 2, True]
-run_domain(Cat_vs_Monsters(), "Cat vs Monsters", prioritized_sweeping_args, hyperparameter_bounds, *es_params)
-run_domain(Gridworld(), "687-Gridworld", prioritized_sweeping_args, hyperparameter_bounds, *es_params)
-run_domain(Extra_Large_Grid_World(), "Extra Large Grid World", prioritized_sweeping_args, hyperparameter_bounds, 10, 10, 3, 0.05, 1, 1, False)
-
 """
 MCTS
 """
@@ -149,24 +141,32 @@ def graph_MCTS(game, c_p_opt, c_p_min, c_p_max, policy_opt, policy_list, rollout
     plt.tight_layout()
     plt.show()
 
-"""
-Recreate Graphs for MCTS
-"""
-#graph_MCTS("GridWorld", math.sqrt(2), 1, 5, "state_score", ["Random", "Down Left", "state_score"], 50, 0, 100)
-#graph_MCTS("Cats vs Monsters", 3, 1, 5, "state_score", ["Down Left", "state_score"], 50, 0, 100)
-#graph_MCTS("Extra Large", math.sqrt(2), 1, 5, "state_score", ["state_score", "state_score2"], 75, 25, 105)
-"""
-Run each once
-"""
-game = Gridworld()
-node = GridWorldNode
-mcts = MCTS(game, node, math.sqrt(2), 50, "state_score")
-mcts.mcts()
-game = Cat_vs_Monsters()
-node = Cats_vs_Monsters_Node
-mcts = MCTS(game, node, 3, 50, "state_score")
-mcts.mcts()
-game = Extra_Large_Grid_World()
-node = Really_Big_Node
-mcts = MCTS(game, node, math.sqrt(2), 75, "state_score")
-mcts.mcts()
+if __name__ == "__main__":
+    theta, alpha, epsilon = 0.1, 0.1, 0.1
+    prioritized_sweeping_args = [theta, alpha, epsilon]
+    hyperparameter_bounds = {'theta': (0.01, 0.75),'alpha': (0.01, 0.75),'epsilon': (0.01, 0.75),'n': (1, 100),'niter': (50, 500),'episode_length': (50, 500)}
+    es_params = [20, 20, 5, 0.05, 10, 2, True]
+    run_domain(Cat_vs_Monsters(), "Cat vs Monsters", prioritized_sweeping_args, hyperparameter_bounds, *es_params)
+    run_domain(Gridworld(), "687-Gridworld", prioritized_sweeping_args, hyperparameter_bounds, *es_params)
+    run_domain(Extra_Large_Grid_World(), "Extra Large Grid World", prioritized_sweeping_args, hyperparameter_bounds, 10, 10, 3, 0.05, 1, 1, False)
+    """
+    Recreate Graphs for MCTS
+    """
+    #graph_MCTS("GridWorld", math.sqrt(2), 1, 5, "state_score", ["Random", "Down Left", "state_score"], 50, 0, 100)
+    #graph_MCTS("Cats vs Monsters", 3, 1, 5, "state_score", ["Down Left", "state_score"], 50, 0, 100)
+    #graph_MCTS("Extra Large", math.sqrt(2), 1, 5, "state_score", ["state_score", "state_score2"], 75, 25, 105)
+    """
+    Run each once
+    """
+    game = Gridworld()
+    node = GridWorldNode
+    mcts = MCTS(game, node, math.sqrt(2), 50, "state_score")
+    mcts.mcts()
+    game = Cat_vs_Monsters()
+    node = Cats_vs_Monsters_Node
+    mcts = MCTS(game, node, 3, 50, "state_score")
+    mcts.mcts()
+    game = Extra_Large_Grid_World()
+    node = Really_Big_Node
+    mcts = MCTS(game, node, math.sqrt(2), 75, "state_score")
+    mcts.mcts()
