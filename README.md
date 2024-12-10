@@ -24,12 +24,3 @@ In the write-up for a project of this sort you should include...
 
 When analyzing the performance of each algorithm, you should present learning curves
 such as the ones in the homework assignments.
-
-
-Meeting on Sunday:
-
-Sean: Finish up write up for hyperameters tuning and algorithm. Include learning curves
-
-Kevin: Fine-tuning (ES), and add write-up.
-
-For Sunday, proofread write-up.
