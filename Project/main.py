@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 from utils.utils import *
 import pandas as pd
 
-def run_domain(domain, domain_name, prioritized_sweeping_args, hyperparameter_bounds):
+def run_domain(domain, domain_name, prioritized_sweeping_args, hyperparameter_bounds, es_pop_size, es_num_generations, es_top_parents, es_mutation_strength, es_num_avg, es_keep_parents, is_decaying_mutation):
     print(f"-- {domain_name} Domain --\n")
     instance = ValueIteration(domain)
     cvm_v_map, cvm_policy_map, iterations = instance.run_standard_value_iteration(init_func)
@@ -39,7 +39,7 @@ def run_domain(domain, domain_name, prioritized_sweeping_args, hyperparameter_bo
     print(f"\nRunning Evolution Strategy for Prioritized Sweeping Algorithm, on {domain_name} domain...\n")
 
     es_ps = EvolutionStrategyForPrioritizedSweeping(prioritized_sweeping=PrioritizedSweeping, mdp=domain, optimal_v_map=cvm_v_map)
-    best_params, min_loss, generation_min_loss_list = es_ps.run_es(hyperparameter_bounds, pop_size=100, generations=50, top_parents=10, mutation_strength=0.125)
+    best_params, min_loss, generation_min_loss_list = es_ps.run_es(hyperparameter_bounds, pop_size=es_pop_size, generations=es_num_generations, top_parents=es_top_parents, mutation_strength=es_mutation_strength, num_avg=es_num_avg, keep_parents=es_keep_parents, decaying_mutation=is_decaying_mutation)
 
     print("Best hyperparameters found:", best_params)
     print("Best Max Norm Value:", min_loss)
@@ -51,12 +51,32 @@ def run_domain(domain, domain_name, prioritized_sweeping_args, hyperparameter_bo
     plt.grid(True)
     plt.show()
 
+    print("\nRunning Prioritized Sweeping Algorithm on Fine-tuned Hyperparameters...\n")
+
+    instance = PrioritizedSweeping(domain, cvm_v_map)
+    q_map, max_norm_val, iterations, elapsed_time = instance.prioritized_sweeping(*best_params)
+
+    print(f"The prioritized sweeping algorithm terminated after {iterations} iterations")
+    print(f"It achieved a max norm value of {max_norm_val}, taking {elapsed_time:.4f} seconds\n")
+
+    ps_vmap, ps_policy_map = get_vmap_policy_map(q_map, instance)
+    print("Value Function of States output by Prioritized Sweeping\n")
+    df = pd.DataFrame(ps_vmap)
+    print(df)
+    print("\n")
+
+    df = pd.DataFrame(ps_policy_map)
+    print(df)
+
+    print(f"\nRunning Evolution Strategy for Prioritized Sweeping Algorithm, on {domain_name} domain...\n")
+
 theta, alpha, epsilon = 0.1, 0.1, 0.1
 prioritized_sweeping_args = [theta, alpha, epsilon]
-hyperparameter_bounds = {'theta': (0.01, 1.0),'alpha': (0.01, 1.0),'epsilon': (0.01, 1.0),'n': (1, 100),'niter': (50, 400),'episode_length': (50, 400)}
-run_domain(Cat_vs_Monsters(), "Cat vs Monsters", prioritized_sweeping_args, hyperparameter_bounds)
-run_domain(Gridworld(), "687-Gridworld", prioritized_sweeping_args, hyperparameter_bounds)
-run_domain(Extra_Large_Grid_World(), "Extra Large Grid World", prioritized_sweeping_args, hyperparameter_bounds)
+hyperparameter_bounds = {'theta': (0.01, 0.75),'alpha': (0.01, 0.75),'epsilon': (0.01, 0.75),'n': (1, 100),'niter': (50, 500),'episode_length': (50, 500)}
+es_params = [20, 20, 5, 0.05, 10, 2, True]
+run_domain(Cat_vs_Monsters(), "Cat vs Monsters", prioritized_sweeping_args, hyperparameter_bounds, *es_params)
+run_domain(Gridworld(), "687-Gridworld", prioritized_sweeping_args, hyperparameter_bounds, *es_params)
+run_domain(Extra_Large_Grid_World(), "Extra Large Grid World", prioritized_sweeping_args, hyperparameter_bounds, 10, 10, 3, 0.05, 1, 1, False)
 
 """
 MCTS

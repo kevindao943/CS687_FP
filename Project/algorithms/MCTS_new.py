@@ -3,7 +3,7 @@ import time
 
 import matplotlib.pyplot as plt
 import numpy as np
-from PrettyPrint import PrettyPrintTree
+# from PrettyPrint import PrettyPrintTree
 
 # from Project.domains.cat_vs_monsters import Cat_vs_Monsters
 # from Project.domains.gridworld import Gridworld
